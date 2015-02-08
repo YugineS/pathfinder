@@ -22,6 +22,8 @@ public class NavigationPoint
     private float H = 0;
     private boolean processed = false;
 
+    public NavigationPoint(){}
+
     public NavigationPoint(final int x, final int y)
     {
         this.x = x;

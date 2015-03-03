@@ -5,12 +5,6 @@ apply plugin: 'idea'
 sourceCompatibility = 1.6
 version = '0.1'
 
-task run(dependsOn: classes, type: JavaExec) {
-    main = "com.yug.pf.App"
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-}
-
 repositories {
     mavenCentral()
 }

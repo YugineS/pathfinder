@@ -212,7 +212,7 @@ public class NavigationMap<T extends NavigationPoint>
         return map[x + 1][y - 1];
     }
 
-    private boolean isInBounds(final int x, final int y)
+    public boolean isInBounds(final int x, final int y)
     {
         return x > -1 && x < mapWidth && y > -1 && y < mapHeight;
     }

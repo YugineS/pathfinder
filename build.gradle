@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'idea'
 
 sourceCompatibility = 1.6
-version = '0.1'
+version = '0.2'
 
 repositories {
     mavenCentral()

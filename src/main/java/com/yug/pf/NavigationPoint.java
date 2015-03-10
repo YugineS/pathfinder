@@ -8,6 +8,7 @@ public class NavigationPoint
     private int x;
     private int y;
     private boolean walkable = false;
+    private boolean walkableCorners = true;
     /**
      * The point which the current point was reached from.
      */
@@ -16,13 +17,16 @@ public class NavigationPoint
      * The point walk through penalty. Adds to the movement cost of the next point.
      */
     private float G = 0;
+    private float walkingResistance = 0;
     /**
      * The heuristic distance prom this point to the end point of the path. Calculates using heuristic function.
      */
     private float H = 0;
     private boolean processed = false;
 
-    public NavigationPoint(){}
+    public NavigationPoint()
+    {
+    }
 
     public NavigationPoint(final int x, final int y)
     {
@@ -114,6 +118,26 @@ public class NavigationPoint
     public void setWalkable(final boolean walkable)
     {
         this.walkable = walkable;
+    }
+
+    public boolean isWalkableCorners()
+    {
+        return walkableCorners;
+    }
+
+    public void setWalkableCorners(final boolean walkableCorners)
+    {
+        this.walkableCorners = walkableCorners;
+    }
+
+    public float getWalkingResistance()
+    {
+        return walkingResistance;
+    }
+
+    public void setWalkingResistance(final float walkingResistance)
+    {
+        this.walkingResistance = walkingResistance;
     }
 
     @Override

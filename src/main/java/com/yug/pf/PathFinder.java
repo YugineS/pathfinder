@@ -14,6 +14,7 @@ import java.util.List;
 public class PathFinder
 {
     private final Comparator pointComparator;
+
     public PathFinder()
     {
         pointComparator = new Comparator<NavigationPoint>()
@@ -21,17 +22,17 @@ public class PathFinder
             @Override
             public int compare(final NavigationPoint p1, final NavigationPoint p2)
             {
-                if(p1 == null || p2 == null)
+                if (p1 == null || p2 == null)
                 {
                     if (p1 == null && p2 == null)
                     {
                         return 0;
                     }
-                    else if(p1 == null && p2!=null)
+                    else if (p1 == null && p2 != null)
                     {
                         return -1;
                     }
-                    else if(p1 != null && p2 == null)
+                    else if (p1 != null && p2 == null)
                     {
                         return 1;
                     }
@@ -53,7 +54,7 @@ public class PathFinder
         }
         openList.add(start);
         final List<NavigationPoint> neighbors = new ArrayList<NavigationPoint>(8);
-        while (openList.size()>0)
+        while (openList.size() > 0)
         {
             final NavigationPoint currentNavigationPoint = openList.getFirst();
             //the end point is found
@@ -81,19 +82,19 @@ public class PathFinder
             CollectionUtils.addIgnoreNull(neighbors, topNeighbor);
             CollectionUtils.addIgnoreNull(neighbors, bottomNeighbor);
             //exclude diagonal wall crossing
-            if (leftNeighbor!=null && topNeighbor!=null && leftNeighbor.isWalkable() && topNeighbor.isWalkable())
+            if (canCrossCorner(leftNeighbor) && canCrossCorner(topNeighbor))
             {
                 CollectionUtils.addIgnoreNull(neighbors, leftTopNeighbor);
             }
-            if (leftNeighbor!=null && bottomNeighbor!=null && leftNeighbor.isWalkable() && bottomNeighbor.isWalkable())
+            if (canCrossCorner(leftNeighbor) && canCrossCorner(bottomNeighbor))
             {
                 CollectionUtils.addIgnoreNull(neighbors, leftBottomNeighbor);
             }
-            if (rightNeighbor!=null && topNeighbor!=null && rightNeighbor.isWalkable() && topNeighbor.isWalkable())
+            if (canCrossCorner(rightNeighbor) && canCrossCorner(topNeighbor))
             {
                 CollectionUtils.addIgnoreNull(neighbors, rightTopNeighbor);
             }
-            if (rightNeighbor!=null && bottomNeighbor!=null && rightNeighbor.isWalkable() && bottomNeighbor.isWalkable())
+            if (canCrossCorner(rightNeighbor) && canCrossCorner(bottomNeighbor))
             {
                 CollectionUtils.addIgnoreNull(neighbors, rightBottomNeighbor);
             }
@@ -109,6 +110,7 @@ public class PathFinder
                         {
                             neighbor.setG(movementCost);
                             neighbor.setParent(currentNavigationPoint);
+                            Collections.sort(openList, pointComparator);
                         }
                     }
                     else
@@ -136,22 +138,27 @@ public class PathFinder
         return (Math.abs(navigationPoint.getX() - endNavigationPoint.getX()) + Math.abs(navigationPoint.getY() - endNavigationPoint.getY())) * 10;
     }
 
-    private <T extends NavigationPoint>LinkedList<T>backtracePath(final T endPoint)
+    private <T extends NavigationPoint> LinkedList<T> backtracePath(final T endPoint)
     {
         final LinkedList<T> result = new LinkedList<T>();
         result.push(endPoint);
         T point = endPoint;
-        while (point.getParent()!=null)
+        while (point.getParent() != null)
         {
-            final T parent = (T)point.getParent();
+            final T parent = (T) point.getParent();
             result.push(parent);
             point = parent;
         }
-        if (result.size()>0)
+        if (result.size() > 0)
         {
             result.pop();
         }
         return result;
+    }
+
+    private boolean canCrossCorner(final NavigationPoint navigationPoint)
+    {
+        return navigationPoint != null && navigationPoint.isWalkable() && navigationPoint.isWalkableCorners();
     }
 
 }

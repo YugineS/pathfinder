@@ -44,11 +44,11 @@ public class NavigationMap<T extends NavigationPoint>
         }
         if(deltaX == 1 && deltaY == 1)
         {
-            return DIAGONAL_MOVEMENT_COST + navigationPointFrom.getG();
+            return DIAGONAL_MOVEMENT_COST + navigationPointFrom.getG() + navigationPointTo.getWalkingResistance();
         }
         else
         {
-            return ORTHOGONAL_MOVEMENT_COST + navigationPointFrom.getG();
+            return ORTHOGONAL_MOVEMENT_COST + navigationPointFrom.getG() + navigationPointTo.getWalkingResistance();
         }
     }
 
